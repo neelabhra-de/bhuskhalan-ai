@@ -1,0 +1,22 @@
+// Prototype baseline values for the Gangtok Slope 01 simulation UI; not live sensor readings.
+export const simulationBaseline = {
+  Rainfall_mm: 184,
+  Rainfall_3Day: 320,
+  Rainfall_7Day: 520,
+  Slope_Angle: 34,
+  Elevation_m: 1640,
+  Soil_Saturation: 91.2,
+  Historical_Landslide_Count: 3,
+  Pore_Water_Pressure_kPa: 78,
+  Soil_Moisture_Content: 91.2,
+  Microseismic_Activity: 0.35,
+  Acoustic_Emission_dB: 72,
+  Soil_Strain: 0.08,
+  Soil_Erosion_Rate: 3.5,
+  NDVI_Index: 0.42,
+  Vegetation_Cover: 48,
+  Distance_to_Road_m: 25,
+  Proximity_to_Water: 1,
+  Earthquake_Activity: 0.12,
+  TDR_Reflection_Index: 0.65,
+};
