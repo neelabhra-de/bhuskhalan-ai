@@ -25,6 +25,7 @@ const predictionSchema = new mongoose.Schema({
 
   prediction: {
     type: Number,
+    enum: [0, 1],
     required: true
   },
 
@@ -40,6 +41,7 @@ const predictionSchema = new mongoose.Schema({
 
   riskLevel: {
     type: String,
+    enum: ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'],
     required: true
   },
 

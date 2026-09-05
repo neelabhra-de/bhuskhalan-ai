@@ -2,13 +2,15 @@
 
 # Bhuskhalan AI Backend
 
-Minimal Express API layer between the React frontend and the FastAPI/XGBoost ML service. It validates prediction input, forwards it to the ML service, and returns the prediction to the frontend. Database integration is intentionally not included.
+Minimal Express API layer between the React frontend, FastAPI/XGBoost ML service, and MongoDB. It validates prediction input, forwards it to the ML service, persists successful predictions when MongoDB is connected, and returns the prediction to the frontend.
 
 ## Structure
 
 - `server.js` - starts the HTTP server
 - `src/app.js` - Express setup, CORS, routes, and error handling
 - `src/config/env.js` - environment configuration
+- `src/config/db.js` - MongoDB connection and status helpers
+- `models/` - Mongoose models
 - `src/controllers/` - request handling and validation
 - `src/services/mlService.js` - Axios integration with the ML service
 - `src/routes/` - health and prediction routes
@@ -25,6 +27,7 @@ Copy `.env.example` to `.env` for local development (do not commit `.env`):
 ```ini
 PORT=5000
 ML_SERVICE_URL=http://127.0.0.1:8000
+MONGO_URI=mongodb://127.0.0.1:27017/bhuskhalan_ai
 ```
 
 ## Run
@@ -39,6 +42,9 @@ For production-style startup: `npm start`
 
 - `GET /api/health` - backend health check
 - `POST /api/predict` - validates and forwards the 19 model features
+- `GET /api/slopes` - list stored slopes
+- `GET /api/slopes/:slopeId` - fetch one slope by business identifier
+- `GET /api/predictions` - newest persisted predictions (`slopeId` and `limit` supported)
 
 Example prediction request (PowerShell):
 
@@ -47,4 +53,4 @@ $body = @{ Rainfall_mm=120; Rainfall_3Day=250; Rainfall_7Day=480; Slope_Angle=34
 Invoke-RestMethod http://localhost:5000/api/predict -Method Post -ContentType 'application/json' -Body $body
 ```
 
-Successful predictions return `{ "success": true, "data": <ML response> }`. Invalid or missing fields return HTTP 400, an unavailable ML service returns HTTP 503, and unexpected server errors return HTTP 500 without stack traces.
+Successful predictions return `{ "success": true, "data": <ML response> }`. Prediction persistence is non-blocking so a database outage does not break the ML response. If a request does not provide optional `slopeId` metadata, persisted prototype records use `UNASSIGNED`; the exact ML `inputFeatures` object remains separate and unchanged. Invalid or missing fields return HTTP 400, an unavailable ML service returns HTTP 503, and unexpected server errors return HTTP 500 without stack traces.

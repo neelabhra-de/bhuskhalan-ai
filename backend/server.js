@@ -1,14 +1,10 @@
-const app = require('./src/app'); 
-const { port } = require('./src/config/env'); 
+const { port } = require('./src/config/env');
+const { connectDatabase } = require('./src/config/db');
+const app = require('./src/app');
 
-const mongoose = require('mongoose');
+async function startServer() {
+  await connectDatabase();
+  app.listen(port, () => console.log(`Bhuskhalan AI Backend listening on port ${port}`));
+}
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('✅ MongoDB connected successfully');
-  })
-  .catch((err) => {
-    console.log('❌ MongoDB connection failed:', err.message);
-  });
-
-app.listen(port, () => console.log(`Bhuskhalan AI Backend listening on port ${port}`));
+startServer();

@@ -13,11 +13,13 @@ const alertSchema = new mongoose.Schema({
 
   predictionId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: 'Prediction'
   },
 
   severity: {
     type: String,
+    enum: ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'],
     required: true
   },
 

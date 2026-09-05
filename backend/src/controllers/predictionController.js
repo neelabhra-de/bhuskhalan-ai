@@ -1,4 +1,6 @@
 const { getPrediction } = require('../services/mlService');
+const Prediction = require('../../models/predictions.model');
+const { getDatabaseStatus } = require('../config/db');
 
 const predictionFields = [
   'Rainfall_mm', 'Rainfall_3Day', 'Rainfall_7Day', 'Slope_Angle', 'Elevation_m',
@@ -7,6 +9,30 @@ const predictionFields = [
   'Soil_Strain', 'Soil_Erosion_Rate', 'NDVI_Index', 'Vegetation_Cover',
   'Distance_to_Road_m', 'Proximity_to_Water', 'Earthquake_Activity', 'TDR_Reflection_Index',
 ];
+
+async function persistPrediction(inputFeatures, slopeId, data) {
+  if (getDatabaseStatus() !== 'CONNECTED') {
+    console.warn('Prediction persistence skipped: MongoDB is not connected.');
+    return;
+  }
+
+  try {
+    await Prediction.create({
+      slopeId: slopeId || 'UNASSIGNED',
+      source: data.source || 'ml-service',
+      modelVersion: data.modelVersion || 'xgboost-v1',
+      inputFeatures: { ...inputFeatures },
+      prediction: data.prediction,
+      riskProbability: data.risk_probability,
+      riskScore: data.risk_score,
+      riskLevel: data.risk_level,
+      createdAt: new Date(),
+    });
+    console.log('Prediction persisted successfully.');
+  } catch (error) {
+    console.error(`Prediction persistence failed: ${error.message}`);
+  }
+}
 
 async function predict(req, res, next) {
   const input = req.body || {};
@@ -28,6 +54,7 @@ async function predict(req, res, next) {
   const orderedInput = Object.fromEntries(predictionFields.map((field) => [field, input[field]]));
   try {
     const data = await getPrediction(orderedInput);
+    void persistPrediction(orderedInput, input.slopeId, data);
     return res.json({ success: true, data });
   } catch (error) {
     return next(error);

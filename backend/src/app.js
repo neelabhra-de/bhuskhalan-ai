@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const healthRoutes = require('./routes/healthRoutes');
 const predictionRoutes = require('./routes/predictionRoutes');
+const slopeRoutes = require('./routes/slopeRoutes');
+const predictionHistoryRoutes = require('./routes/predictionHistoryRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -27,6 +29,8 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use('/api/health', healthRoutes);
 app.use('/api/predict', predictionRoutes);
+app.use('/api/slopes', slopeRoutes);
+app.use('/api/predictions', predictionHistoryRoutes);
 
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found' }));
 app.use(errorHandler);
