@@ -44,3 +44,23 @@ export function getPredictions(options = '') {
 export function getAlerts(options = '') {
   return request(`/alerts${options}`);
 }
+
+export function updateAlert(id, data) {
+  return request(`/alerts/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+}
+
+export function getSensorReadings(slopeId, options = '') {
+  return request(`/sensor-readings/${encodeURIComponent(slopeId)}${options}`);
+}
+
+export function getFieldReports(options = '') {
+  return request(`/field-reports${options}`);
+}
+
+export function createFieldReport(data) {
+  return request('/field-reports', { method: 'POST', body: JSON.stringify(data) });
+}
+
+export function createSimulation(data) {
+  return request('/simulations', { method: 'POST', body: JSON.stringify(data) });
+}

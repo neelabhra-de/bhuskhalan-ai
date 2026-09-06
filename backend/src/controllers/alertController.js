@@ -26,7 +26,7 @@ async function updateAlert(req, res, next) {
   if (!ready(next)) return;
   const { status, acknowledgedBy, acknowledgedAt } = req.body || {};
   if (!statuses.includes(status)) { const error = new Error(`Invalid alert status. Expected one of: ${statuses.join(', ')}`); error.statusCode = 400; error.isOperational = true; return next(error); }
-  const update = { status };
+  const update = { status, updatedAt: new Date() };
   if (status === 'ACKNOWLEDGED') {
     if (!acknowledgedBy || typeof acknowledgedBy !== 'string') { const error = new Error('acknowledgedBy is required when status is ACKNOWLEDGED'); error.statusCode = 400; error.isOperational = true; return next(error); }
     update.acknowledgedBy = acknowledgedBy;
