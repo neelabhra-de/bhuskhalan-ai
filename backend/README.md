@@ -13,7 +13,8 @@ Minimal Express API layer between the React frontend, FastAPI/XGBoost ML service
 - `models/` - Mongoose models
 - `src/controllers/` - request handling and validation
 - `src/services/mlService.js` - Axios integration with the ML service
-- `src/routes/` - health and prediction routes
+- `src/routes/` - health, prediction, slope, simulation, sensor, alert, and field-report routes
+- `scripts/seedSlopes.js` - idempotent prototype slope seeding
 - `src/middleware/errorHandler.js` - centralized error responses
 
 ## Installation and configuration
@@ -45,6 +46,18 @@ For production-style startup: `npm start`
 - `GET /api/slopes` - list stored slopes
 - `GET /api/slopes/:slopeId` - fetch one slope by business identifier
 - `GET /api/predictions` - newest persisted predictions (`slopeId` and `limit` supported)
+- `POST /api/simulations` and `GET /api/simulations` - persist and list simulation history
+- `GET /api/sensor-readings`, `GET /api/sensor-readings/:slopeId`, `POST /api/sensor-readings` - sensor reading APIs
+- `GET /api/alerts`, `PATCH /api/alerts/:id` - alert listing and status updates
+- `GET /api/field-reports`, `POST /api/field-reports` - field report APIs
+
+Seed the five prototype slopes without creating duplicates:
+
+```bash
+npm run seed:slopes
+```
+
+Seed values are explicitly prototype/demo metadata and are not official survey or sensor measurements.
 
 Example prediction request (PowerShell):
 

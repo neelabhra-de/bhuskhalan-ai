@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 async function request(path, options = {}) {
   let response;
@@ -31,4 +31,16 @@ export function checkBackendHealth() {
 
 export function getPrediction(data) {
   return request('/predict', { method: 'POST', body: JSON.stringify(data) });
+}
+
+export function getSlopes() {
+  return request('/slopes');
+}
+
+export function getPredictions(options = '') {
+  return request(`/predictions${options}`);
+}
+
+export function getAlerts(options = '') {
+  return request(`/alerts${options}`);
 }

@@ -1,5 +1,6 @@
 const { getPrediction } = require('../services/mlService');
 const Prediction = require('../../models/predictions.model');
+const Slope = require('../../models/slopes.model');
 const { getDatabaseStatus } = require('../config/db');
 
 const predictionFields = [
@@ -36,6 +37,12 @@ async function persistPrediction(inputFeatures, slopeId, data) {
 
 async function predict(req, res, next) {
   const input = req.body || {};
+  if (input.slopeId !== undefined && (typeof input.slopeId !== 'string' || !input.slopeId.trim())) {
+    const error = new Error('Invalid slopeId: expected a non-empty string');
+    error.statusCode = 400;
+    error.isOperational = true;
+    return next(error);
+  }
   const missingFields = predictionFields.filter((field) => !(field in input));
   const invalidFields = predictionFields.filter(
     (field) => field in input && (typeof input[field] !== 'number' || !Number.isFinite(input[field])),
@@ -53,6 +60,21 @@ async function predict(req, res, next) {
 
   const orderedInput = Object.fromEntries(predictionFields.map((field) => [field, input[field]]));
   try {
+    if (input.slopeId) {
+      if (getDatabaseStatus() !== 'CONNECTED') {
+        const error = new Error('Database service is currently unavailable to validate slopeId');
+        error.statusCode = 503;
+        error.isOperational = true;
+        return next(error);
+      }
+      const slope = await Slope.exists({ slopeId: input.slopeId.trim() });
+      if (!slope) {
+        const error = new Error(`Slope not found: ${input.slopeId}`);
+        error.statusCode = 400;
+        error.isOperational = true;
+        return next(error);
+      }
+    }
     const data = await getPrediction(orderedInput);
     void persistPrediction(orderedInput, input.slopeId, data);
     return res.json({ success: true, data });
