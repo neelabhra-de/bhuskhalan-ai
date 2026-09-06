@@ -3,29 +3,29 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
 
   email: {
     type: String,
-    required: true
+    required: true,
   },
 
   role: {
     type: String,
     enum: ['ADMIN', 'DISASTER_OFFICER', 'FIELD_OFFICER', 'ANALYST'],
-    required: true
+    required: true,
   },
 
   isActive: {
     type: Boolean,
-    required: true
+    required: true,
   },
 
   createdAt: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);

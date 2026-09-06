@@ -1,54 +1,54 @@
-//require editing later 
+//require editing later
 
 const mongoose = require('mongoose');
 
 const predictionSchema = new mongoose.Schema({
   slopeId: {
     type: String,
-    required: true
+    required: true,
   },
 
   source: {
     type: String,
-    required: true
+    required: true,
   },
 
   modelVersion: {
     type: String,
-    required: true
+    required: true,
   },
 
   inputFeatures: {
     type: mongoose.Schema.Types.Mixed,
-    required: true
+    required: true,
   },
 
   prediction: {
     type: Number,
     enum: [0, 1],
-    required: true
+    required: true,
   },
 
   riskProbability: {
     type: Number,
-    required: true
+    required: true,
   },
 
   riskScore: {
     type: Number,
-    required: true
+    required: true,
   },
 
   riskLevel: {
     type: String,
     enum: ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'],
-    required: true
+    required: true,
   },
 
   createdAt: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Prediction', predictionSchema);

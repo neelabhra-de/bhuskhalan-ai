@@ -32,7 +32,9 @@ app.use('/api/predict', predictionRoutes);
 app.use('/api/slopes', slopeRoutes);
 app.use('/api/predictions', predictionHistoryRoutes);
 
-app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found' }));
+app.use((req, res) =>
+  res.status(404).json({ success: false, message: 'Route not found' })
+);
 app.use(errorHandler);
 
 module.exports = app;

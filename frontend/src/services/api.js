@@ -8,7 +8,9 @@ async function request(path, options = {}) {
       ...options,
     });
   } catch (error) {
-    throw new Error('Unable to connect to the backend. Please ensure the backend and ML services are running.');
+    throw new Error(
+      'Unable to connect to the backend. Please ensure the backend and ML services are running.'
+    );
   }
 
   let body;
@@ -19,7 +21,9 @@ async function request(path, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(body.message || 'The backend could not complete the request.');
+    throw new Error(
+      body.message || 'The backend could not complete the request.'
+    );
   }
 
   return body;
