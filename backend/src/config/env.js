@@ -8,6 +8,6 @@ module.exports = {
   mongoUri: process.env.MONGO_URI || '',
   frontendOrigins: (process.env.FRONTEND_URL || '')
     .split(',')
-    .map((origin) => origin.trim())
+    .map((origin) => origin.trim().replace(/\/+$/, ''))
     .filter(Boolean),
 };

@@ -39,6 +39,8 @@ npm run dev
 
 For production-style startup: `npm start`
 
+For Render, use `backend` as the service root directory, `npm install` as the build command, and `npm start` as the start command. Configure `PORT`, `MONGO_URI`, `ML_SERVICE_URL`, and `FRONTEND_URL` in the service environment.
+
 ## API endpoints
 
 - `GET /api/health` - backend health check

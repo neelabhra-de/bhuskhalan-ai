@@ -27,9 +27,18 @@ The Machine Learning engine powering **Bhuskhalan AI's landslide risk prediction
 
 ## 🚀 Run Locally
 
----bash
+```bash
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
+```
+
+For Render, use `ml-service` as the service root directory, `pip install -r requirements.txt` as the build command, and:
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port $PORT
+```
+
+The model is loaded from a path relative to `main.py`, so the checked-in model file remains available in deployment.
 
 
 API Docs:
