@@ -1,5 +1,7 @@
 const express = require('express');
-const { listPredictions } = require('../controllers/predictionHistoryController');
+const {
+  listPredictions,
+} = require('../controllers/predictionHistoryController');
 
 const router = express.Router();
 

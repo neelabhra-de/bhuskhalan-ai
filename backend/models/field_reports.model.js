@@ -3,65 +3,65 @@ const mongoose = require('mongoose');
 const fieldReportSchema = new mongoose.Schema({
   reportId: {
     type: String,
-    required: true
+    required: true,
   },
 
   slopeId: {
     type: String,
-    required: true
+    required: true,
   },
 
   observationType: {
     type: String,
-    required: true
+    required: true,
   },
 
   severityLevel: {
     type: String,
-    required: true
+    required: true,
   },
 
   location: {
     type: {
       type: String,
-      required: true
+      required: true,
     },
     coordinates: {
       type: [Number],
-      required: true
-    }
+      required: true,
+    },
   },
 
   notes: {
     type: String,
-    required: true
+    required: true,
   },
 
   photos: {
     type: [String],
-    required: true
+    required: true,
   },
 
   reportedBy: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     role: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   verificationStatus: {
     type: String,
-    required: true
+    required: true,
   },
 
   createdAt: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('FieldReport', fieldReportSchema);

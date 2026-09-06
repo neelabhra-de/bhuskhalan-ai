@@ -4,7 +4,9 @@ const app = require('./src/app');
 
 async function startServer() {
   await connectDatabase();
-  app.listen(port, () => console.log(`Bhuskhalan AI Backend listening on port ${port}`));
+  app.listen(port, () =>
+    console.log(`Bhuskhalan AI Backend listening on port ${port}`)
+  );
 }
 
 startServer();

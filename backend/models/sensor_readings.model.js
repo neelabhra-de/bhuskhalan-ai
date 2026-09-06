@@ -3,64 +3,64 @@ const mongoose = require('mongoose');
 const sensorReadingSchema = new mongoose.Schema({
   slopeId: {
     type: String,
-    required: true
+    required: true,
   },
 
   timestamp: {
     type: Date,
-    required: true
+    required: true,
   },
 
   rainfall24h: {
     type: Number,
-    required: true
+    required: true,
   },
 
   rainfall72h: {
     type: Number,
-    required: true
+    required: true,
   },
 
   soilMoisture: {
     type: Number,
-    required: true
+    required: true,
   },
 
   poreWaterPressure: {
     type: Number,
-    required: true
+    required: true,
   },
 
   displacement24h: {
     type: Number,
-    required: true
+    required: true,
   },
 
   displacementRate: {
     type: Number,
-    required: true
+    required: true,
   },
 
   factorOfSafety: {
     type: Number,
-    required: true
+    required: true,
   },
 
   seismicAcceleration: {
     type: Number,
-    required: true
+    required: true,
   },
 
   source: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 // Required index: slopeId + timestamp
 sensorReadingSchema.index({
   slopeId: 1,
-  timestamp: 1
+  timestamp: 1,
 });
 
 module.exports = mongoose.model('SensorReading', sensorReadingSchema);

@@ -11,9 +11,10 @@ async function listPredictions(req, res, next) {
 
   try {
     const requestedLimit = Number.parseInt(req.query.limit, 10);
-    const limit = Number.isFinite(requestedLimit) && requestedLimit > 0
-      ? Math.min(requestedLimit, 100)
-      : 20;
+    const limit =
+      Number.isFinite(requestedLimit) && requestedLimit > 0
+        ? Math.min(requestedLimit, 100)
+        : 20;
     const filter = req.query.slopeId ? { slopeId: req.query.slopeId } : {};
     const predictions = await Prediction.find(filter)
       .sort({ createdAt: -1 })
